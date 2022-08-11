@@ -1,0 +1,15 @@
+{
+  "name": "ink-react-demo1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:zch233/ink-react-demo1.git",
+  "author": "zhangchao <529743595@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ink": "3.2.0",
+    "react": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.17"
+  }
+}

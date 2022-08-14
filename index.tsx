@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Box, Newline, render, Text} from 'ink';
 import SelectInput from 'ink-select-input';
+import {UncontrolledTextInput} from 'ink-text-input';
+import dayjs from "dayjs";
 
 interface CodeUpItem {
   label: string;
@@ -50,9 +52,16 @@ const Counter = () => {
   }
   return <Box flexDirection="column">
     <Text>
-      {formData.slice(0, step + 1).map((v, i) => <Text key={v.label} color={'green'}><Text>{formData[i].label}:{formData[i].value.label}</Text>{formData[i].value.label && <Newline />}</Text>)}
+      {formData.slice(0, step + 1).map((v, i) => <Text key={v.label} color={'green'}><Text>{formData[i].label}: {formData[i].value.label}</Text>{formData[i].value.label && <Newline />}</Text>)}
     </Text>
-    {selector.length !== 0 && <SelectInput items={selector} onSelect={handleSelect} />}
+    {
+      selector.length !== 0 ?
+        <SelectInput items={selector} onSelect={handleSelect} /> :
+        <UncontrolledTextInput placeholder={'默认为当前时间'} onSubmit={text => {
+          const value = text || dayjs().format('YYYY-MM-DD-HH-mm-ss')
+          setFormData(formData.slice(0, step).concat([{...formData[step], value: {label:value,value}}]).concat(formData.slice(step + 1)))}
+        }/>
+    }
   </Box>
 };
 

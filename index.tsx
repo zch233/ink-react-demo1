@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {Box, Newline, render, Text} from 'ink';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Box, Newline, render, Text, useApp} from 'ink';
 import SelectInput from 'ink-select-input';
 import {UncontrolledTextInput} from 'ink-text-input';
 import dayjs from "dayjs";
+import Spinner from 'ink-spinner';
 
 interface CodeUpItem {
   label: string;
@@ -42,6 +43,8 @@ const Counter = () => {
     {label: '请选择模版', value: {}},
     {label: '请输入名称', value: {}},
   ])
+  const [loading, setLoading] = useState(false)
+  const [finish, setFinish] = useState(false)
   const [step, setStep] = useState(0)
   const [selector, setSelector] = useState<CodeUpItem[]>(codeUp.map(({branch, ...v}) => v))
   const handleSelect = (item: CodeUpItem) => {
@@ -50,17 +53,39 @@ const Counter = () => {
     setFormData(formData.slice(0, step).concat([{...formData[step], value: item}]).concat(formData.slice(step + 1)))
     setSelector(branch || [])
   }
+  const clonePorjectToLocal = async () => {
+    await new Promise(s => {
+      setTimeout(() => {
+        setFinish(true)
+        s(1)
+      }, 2000)
+    })
+    process.exit()
+  }
   return <Box flexDirection="column">
     <Text>
       {formData.slice(0, step + 1).map((v, i) => <Text key={v.label} color={'green'}><Text>{formData[i].label}: {formData[i].value.label}</Text>{formData[i].value.label && <Newline />}</Text>)}
     </Text>
     {
-      selector.length !== 0 ?
-        <SelectInput items={selector} onSelect={handleSelect} /> :
-        <UncontrolledTextInput placeholder={'默认为当前时间'} onSubmit={text => {
-          const value = text || dayjs().format('YYYY-MM-DD-HH-mm-ss')
-          setFormData(formData.slice(0, step).concat([{...formData[step], value: {label:value,value}}]).concat(formData.slice(step + 1)))}
-        }/>
+      finish ? <Text>
+          <Text>Done. Now run:</Text>
+          <Newline />
+          <Newline />
+          <Text>  cd {formData[2].value.value}</Text>
+          <Newline />
+          <Text>  yarn</Text>
+          <Newline />
+          <Text>  yarn serve</Text>
+        </Text> :
+        loading ? <Text><Text color="green"><Spinner type="dots" /></Text>{' Loading'}</Text> :
+          selector.length !== 0 ?
+            <SelectInput items={selector} onSelect={handleSelect} /> :
+            <UncontrolledTextInput placeholder={'默认为当前时间'} onSubmit={text => {
+              setLoading(true);
+              const value = text || dayjs().format('YYYY-MM-DD-HH-mm-ss');
+              setFormData(formData.slice(0, step).concat([{...formData[step], value: {label:value,value}}]).concat(formData.slice(step + 1)));
+              clonePorjectToLocal();
+            }}/>
     }
   </Box>
 };

@@ -53,13 +53,8 @@ const Counter = () => {
     setFormData(formData.slice(0, step).concat([{...formData[step], value: item}]).concat(formData.slice(step + 1)))
     setSelector(branch || [])
   }
-  const clonePorjectToLocal = async () => {
-    await new Promise(s => {
-      setTimeout(() => {
-        setFinish(true)
-        s(1)
-      }, 2000)
-    })
+  const cloneProjectToLocal = async () => {
+    setFinish(true)
     process.exit()
   }
   return <Box flexDirection="column">
@@ -84,7 +79,7 @@ const Counter = () => {
               setLoading(true);
               const value = text || dayjs().format('YYYY-MM-DD-HH-mm-ss');
               setFormData(formData.slice(0, step).concat([{...formData[step], value: {label:value,value}}]).concat(formData.slice(step + 1)));
-              clonePorjectToLocal();
+              cloneProjectToLocal();
             }}/>
     }
   </Box>

@@ -4,7 +4,7 @@ import SelectInput from 'ink-select-input';
 import {UncontrolledTextInput} from 'ink-text-input';
 import dayjs from "dayjs";
 import Spinner from 'ink-spinner';
-import {spawnSync} from 'child_process';
+import {spawnSync, execSync} from 'child_process';
 import rimraf from "rimraf";
 
 interface CodeUpItem {
@@ -96,7 +96,7 @@ const Counter = () => {
     spawnSync('git', ['clone', '-b', formData[1].value.value!, formData[0].value.value!, value])
     const cwd = `./${value}`
     rimraf.sync(`${cwd}/.git`)
-    spawnSync('node', ['-v', '>', '.nvmrc'], { cwd })
+    execSync('node -v > .nvmrc', { cwd })
     spawnSync('git', ['init'], { cwd })
     spawnSync('git', ['add', '.'], { cwd })
     spawnSync('git', ['commit', '-m', '"feat: init"', '-n'], { cwd })

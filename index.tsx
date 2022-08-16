@@ -4,6 +4,8 @@ import SelectInput from 'ink-select-input';
 import {UncontrolledTextInput} from 'ink-text-input';
 import dayjs from "dayjs";
 import Spinner from 'ink-spinner';
+import {spawnSync} from 'child_process';
+import rimraf from "rimraf";
 
 interface CodeUpItem {
   label: string;
@@ -17,24 +19,61 @@ interface CodeUp extends CodeUpItem {
 const codeUp: CodeUp[] = [
   {
     label: 'vue3-vite',
-    value: 'git',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue3-vite-template.git',
     branch: [
       {label: '基础模版(ts)', value: 'master'},
       {label: '基础模版(js)', value: 'master-js'},
-      {label: 'ant-design-js', value: 'master-js-admin'},
-      {label: 'element-plus-ts', value: 'element-plus-ts'},
+      {label: 'ant-design后台模板(js)', value: 'master-js-admin'},
+      {label: 'element-plus后台模板(ts)', value: 'element-plus-ts'},
     ]
   },
   {
     label: 'vue3-cli',
-    value: 'git:',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue3-cli5-template.git',
     branch: [
-      {label: 'js', value: 'master'},
-      {label: 'ant-design-js', value: 'pc'},
-      {label: 'vant-js', value: 'mobile'},
-      {label: 'element-plus-js', value: 'main/adminTemplate'},
+      {label: '基础模版(js)', value: 'master'},
+      {label: 'ant-design后台模板(js)', value: 'pc'},
+      {label: 'vant移动端模板(js)', value: 'mobile'},
+      {label: 'element-plus后台模板(js)', value: 'main/adminTemplate'},
     ]
-  }
+  },
+  {
+    label: 'vue3-vite-screen',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue3-vite-ts-screen-templte.git',
+    branch: [
+      {label: '基础模版(ts)', value: 'master'},
+    ]
+  },
+  {
+    label: 'vue3-cli-screen',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue3-screen-template.git',
+    branch: [
+      {label: '用户中心版(js)', value: 'master'},
+      {label: '基础模版(js)', value: 'feature/v1'},
+    ]
+  },
+  {
+    label: 'vue3-vite-taro',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue3-taroMP-template.git',
+    branch: [
+      {label: 'nut(ts)', value: 'master'},
+    ]
+  },
+  {
+    label: 'vue2-cli-pc',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue2_eslint_prettier.git',
+    branch: [
+      {label: 'element(js)', value: 'master'},
+      {label: '大屏(js)', value: 'screen-template'},
+    ]
+  },
+  {
+    label: 'vue2-cli-phone',
+    value: 'git@codeup.aliyun.com:gupo/gupo-dev/fe/vue2_eslint_prettier_phone.git',
+    branch: [
+      {label: 'vant(js)', value: 'master'},
+    ]
+  },
 ]
 
 const Counter = () => {
@@ -53,7 +92,12 @@ const Counter = () => {
     setFormData(formData.slice(0, step).concat([{...formData[step], value: item}]).concat(formData.slice(step + 1)))
     setSelector(branch || [])
   }
-  const cloneProjectToLocal = async () => {
+  const cloneProjectToLocal = async (value: string) => {
+    spawnSync('git', ['clone', '-b', formData[1].value.value!, formData[0].value.value!, value])
+    rimraf.sync(`./${value}/.git`)
+    spawnSync('git', ['init'], { cwd: `./${value}` })
+    spawnSync('git', ['add', '.'], { cwd: `./${value}` })
+    spawnSync('git', ['commit', '-m', '"feat: init"', '-n'], { cwd: `./${value}` })
     setFinish(true)
     process.exit()
   }
@@ -79,7 +123,7 @@ const Counter = () => {
               setLoading(true);
               const value = text || dayjs().format('YYYY-MM-DD-HH-mm-ss');
               setFormData(formData.slice(0, step).concat([{...formData[step], value: {label:value,value}}]).concat(formData.slice(step + 1)));
-              cloneProjectToLocal();
+              cloneProjectToLocal(value);
             }}/>
     }
   </Box>

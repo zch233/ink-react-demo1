@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Box, Newline, render, Text, useApp} from 'ink';
+import React, {useState} from 'react';
+import {Box, Newline, render, Text} from 'ink';
 import SelectInput from 'ink-select-input';
 import {UncontrolledTextInput} from 'ink-text-input';
 import dayjs from "dayjs";
@@ -94,11 +94,12 @@ const Counter = () => {
   }
   const cloneProjectToLocal = async (value: string) => {
     spawnSync('git', ['clone', '-b', formData[1].value.value!, formData[0].value.value!, value])
-    rimraf.sync(`./${value}/.git`)
-    spawnSync('node', ['-v', '>', '.nvmrc'], { cwd: `./${value}` })
-    spawnSync('git', ['init'], { cwd: `./${value}` })
-    spawnSync('git', ['add', '.'], { cwd: `./${value}` })
-    spawnSync('git', ['commit', '-m', '"feat: init"', '-n'], { cwd: `./${value}` })
+    const cwd = `./${value}`
+    rimraf.sync(`${cwd}/.git`)
+    spawnSync('node', ['-v', '>', '.nvmrc'], { cwd })
+    spawnSync('git', ['init'], { cwd })
+    spawnSync('git', ['add', '.'], { cwd })
+    spawnSync('git', ['commit', '-m', '"feat: init"', '-n'], { cwd })
     setFinish(true)
     process.exit()
   }

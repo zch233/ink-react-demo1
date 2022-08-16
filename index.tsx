@@ -95,6 +95,7 @@ const Counter = () => {
   const cloneProjectToLocal = async (value: string) => {
     spawnSync('git', ['clone', '-b', formData[1].value.value!, formData[0].value.value!, value])
     rimraf.sync(`./${value}/.git`)
+    spawnSync('node', ['-v', '>', '.nvmrc'], { cwd: `./${value}` })
     spawnSync('git', ['init'], { cwd: `./${value}` })
     spawnSync('git', ['add', '.'], { cwd: `./${value}` })
     spawnSync('git', ['commit', '-m', '"feat: init"', '-n'], { cwd: `./${value}` })

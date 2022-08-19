@@ -243,6 +243,15 @@ inherits@2:
   resolved "https://registry.npmmirror.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+ink-confirm-input2@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/ink-confirm-input2/-/ink-confirm-input2-0.0.4.tgz#5b5d3f0d9b394915020af7e70d15e23624cdfad6"
+  integrity sha512-NPx19WcxPWf5KUh8wYQiBx4vgX1fX/NXfgoMU9YUEzB/vCkTNmmXfIkXavMSkYNvB+MvGznTLgR7odBUmqrrog==
+  dependencies:
+    ink-text-input "4.0.3"
+    react "18.2.0"
+    yn "4.0.0"
+
 ink-select-input@4.2.1:
   version "4.2.1"
   resolved "https://registry.npmmirror.com/ink-select-input/-/ink-select-input-4.2.1.tgz#121108ccbcb42aa619f9f0baedb796c24c971a2a"
@@ -512,6 +521,11 @@ ws@^7, ws@^7.5.5:
   version "7.5.9"
   resolved "https://registry.npmmirror.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
+
+yn@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/yn/-/yn-4.0.0.tgz#611480051ea43b510da1dfdbe177ed159f00a979"
+  integrity sha512-huWiiCS4TxKc4SfgmTwW1K7JmXPPAmuXWYy4j9qjQo4+27Kni8mGhAAi1cloRWmBe2EqcLgt3IGqQoRL/MtPgg==
 
 yoga-layout-prebuilt@^1.9.6:
   version "1.10.0"

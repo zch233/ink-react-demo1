@@ -11,6 +11,7 @@
   "dependencies": {
     "dayjs": "1.11.5",
     "ink": "3.2.0",
+    "ink-confirm-input2": "^0.0.4",
     "ink-select-input": "4.2.1",
     "ink-spinner": "4.0.3",
     "ink-text-input": "4.0.3",
